@@ -1,6 +1,8 @@
 package userModule
 
-import "net"
+import (
+	"net"
+)
 
 type User struct {
 	Name string
