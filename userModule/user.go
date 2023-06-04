@@ -25,6 +25,10 @@ func NewUser(conn net.Conn) *User {
 	return &user
 }
 
+func (this *User) SendMsg(msg string) {
+	this.conn.Write([]byte(msg))
+}
+
 //监听用户的chan是否有消息,并发送
 func (this *User) ListenMsg() {
 	for {

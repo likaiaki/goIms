@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"net"
+	"strings"
 	"sync"
 )
 
@@ -40,8 +41,17 @@ func (this *Server) Handler(conn net.Conn) {
 				return
 			}
 			msg := string(byt[:n-1])
-			fmt.Println(msg)
-			this.BroadCastMsg(user, msg)
+			if msg == "who" {
+				var builder strings.Builder
+				for _, onlineUser := range this.OnlineMap {
+					onlineMsg := "[" + onlineUser.Addr + "]" + onlineUser.Name + ":" + "在线...\n"
+					builder.WriteString(onlineMsg)
+				}
+				user.SendMsg(builder.String())
+
+			} else {
+				this.BroadCastMsg(user, msg)
+			}
 		}
 	}()
 
